@@ -1,0 +1,83 @@
+-------------------------------------------
+-- Company: 
+-- Engineer: Datola Marco
+-- 
+-- Create Date:    22:28:26 10/12/2016 
+-- Design Name: 
+-- Module Name:    two_input_mux - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+-------------------------------------------
+-------------------------------------------
+-- truth table to process the test bench --
+-- 				a	c	d	:	f	 	 --
+--				0	0	0	:	0	 	 --
+--				0	0	1	:	1	 	 --
+--				0	1	0	:	1	 	 --
+--				0	1	1	:	1	 	 --
+--				1	0	0	:	1	 	 --
+--				1	0	1	:	1	 	 --
+--				1	1	0	:	1	 	 --
+--				1	1	1	:	1	 	 --
+-------------------------------------------
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.std_logic_unsigned.all;
+USE ieee.numeric_std.ALL;
+
+entity two_input_mux_tb is
+end two_input_mux_tb;
+
+architecture behaviour of two_input_mux_tb is
+
+	component two_input_mux
+	port(
+			a : in std_logic;
+			b : in std_logic;
+			c : out std_logic;
+			f : out std_logic);
+	end component;
+	
+	--inputs
+	signal	a : std_logic := 0;
+	signal	b : std_logic := 0;
+	--outputs
+	signal	s : std_logic;
+	signal	c : std_logic;
+
+	begin	
+		--instantiate unit under test (UUT)
+		uut : two_input_mux port map (a,b,c,f);
+		
+		tb	: process
+		begin
+			-- wait for global reset to finish
+			wait for 100 ns;
+			a	<=	"0";		-- 0
+			c	<=	"0";		-- check s = 0 
+								--		 c = 0
+			wait for 100 ns;
+			a	<=	"0";		-- 1
+			b	<=	"1";		-- check s = 1 
+								--		 c = 0
+			wait for 100 ns;
+			a	<=	"1";		-- 2
+			b	<=	"0";		-- check s = 1 
+								--		 c = 0
+			wait for 100 ns;
+			a	<=	"1";		-- 3
+			b	<=	"1";		-- check s = 1
+								--		 c = 1
+			wait;				-- will wait forever
+		end process;
+	end;
+end behaviour;
